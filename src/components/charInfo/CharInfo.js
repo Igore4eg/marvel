@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { SpinnerCircular } from 'spinners-react';
+import PropTypes from 'prop-types';
 import MarvelService from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton'
@@ -72,6 +73,7 @@ class CharInfo extends Component {
         )
     }
 }
+
 const View = ({char}) => {
     const {name, description, thumbnail, homepage, wiki, comics} = char;
     if (comics.length > 10) comics.length = 10
@@ -120,6 +122,10 @@ const Spinner = () => {
             <SpinnerCircular size={60} thickness={155} speed={121} color="rgba(159, 0, 19, 1)" secondaryColor="rgba(172, 57, 57, 0.48)" />
         </div>
     )
+}
+
+CharInfo.propTypes = {
+    charId: PropTypes.number
 }
 
 export default CharInfo;
