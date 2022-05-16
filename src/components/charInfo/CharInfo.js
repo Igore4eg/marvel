@@ -14,6 +14,28 @@ class CharInfo extends Component {
         error: false
     }
     marvelService = new MarvelService();
+    
+    componentDidMount () {
+        this.updateChar();
+    }
+    
+    componentDidUpdate (prevProps, prevState) {
+        if (this.props.charId !== prevProps.charId) {
+            this.updateChar()
+        }
+    }
+    
+    updateChar = () => {
+        const {charId} = this.props;
+        if (!charId) {
+            return;
+        }
+        this.onCharLoading();
+        this.marvelService
+            .getCharacter(charId)
+            .then(this.onCharLoaded)
+            .catch(this.onError)
+    }
 
     onCharLoaded = (char) => {
         this.setState({
@@ -34,30 +56,11 @@ class CharInfo extends Component {
             error: true
         })
     }
-    componentDidMount () {
-        this.updateChar();
-    }
-
-    componentDidUpdate (prevProps, prevState) {
-        if (this.props.charId !== prevProps.charId) {
-            this.updateChar()
-        }
-    }
        
-    updateChar = () => {
-        const {charId} = this.props;
-        if (!charId) {
-            return;
-        }
-        this.onCharLoading();
-        this.marvelService
-            .getCharacter(charId)
-            .then(this.onCharLoaded)
-            .catch(this.onError)
-    }
 
     render() {
         const {char, loading, error} = this.state;
+
         const skeleton = char || loading || error ? null : <Skeleton/>;
         const errorMessage = error ? <ErrorMessage/> : null;
         const spinner = loading ? <Spinner/> : null;
@@ -76,9 +79,11 @@ class CharInfo extends Component {
 
 const View = ({char}) => {
     const {name, description, thumbnail, homepage, wiki, comics} = char;
-    if (comics.length > 10) comics.length = 10
+    if (comics.length > 10) {
+        comics.length = 10
+    } 
     let imgStyle = {'objectFit' : 'cover'};
-    if(thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+    if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
         imgStyle = {'objectFit' : 'contain'};
     }
     return (
