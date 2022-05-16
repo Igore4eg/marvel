@@ -107,7 +107,7 @@ const View = ({char}) => {
 
 const Spinner = () => {
     return (
-        <div style={{margin: 'auto', background: 'none', display: 'block'}}>
+        <div style={{margin: 'auto', background: 'none', display: 'flex', justifyContent: 'center'}}>
             <SpinnerCircular size={60} thickness={155} speed={121} color="rgba(159, 0, 19, 1)" secondaryColor="rgba(172, 57, 57, 0.48)" />
         </div>
     )
