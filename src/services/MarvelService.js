@@ -38,7 +38,7 @@ const useMarvelService = () => {
         return {
             id: comics.id,
             title: comics.title,
-            price: comics.prices[0].price,
+            price: comics.prices[0].price ? `${comics.prices[0].price}$` : 'NOT AVAILABLE',
             thumbnail: `${comics.thumbnail.path}.${comics.thumbnail.extension}`,
             href: comics.resourceURI
         }

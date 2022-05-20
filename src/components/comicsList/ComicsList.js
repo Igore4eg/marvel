@@ -32,9 +32,9 @@ const ComicsList = () => {
             ended = true;
         }
         setComicsList(comicsList => [...comicsList, ...newComicsList]);
-        setNewItemLoading(newItemLoading => false);
-        setOffset(offset => offset + 8);
-        setComicsEnded(comicsEnded => ended);
+        setNewItemLoading(false);
+        setOffset(offset + 8);
+        setComicsEnded(ended);
     }
 
     function renderItems(arr) {
@@ -45,9 +45,9 @@ const ComicsList = () => {
                     tabIndex={0}
                     key={item.id} >
                         <a href={item.href}>
-                            <img src={item.thumbnail} alt={item.name} className="comics__item-img"/>
+                            <img src={item.thumbnail} alt={item.title} className="comics__item-img"/>
                             <div className="comics__item-name">{item.title}</div>
-                            <div className="comics__item-price">{item.price ? item.price + "$" : 'NOT AVAILABLE'}</div>
+                            <div className="comics__item-price">{item.price}</div>
                         </a>
                 </li>
             )
