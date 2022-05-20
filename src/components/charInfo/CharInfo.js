@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { SpinnerCircular } from 'spinners-react';
 import PropTypes from 'prop-types';
-import MarvelService from '../../services/MarvelService';
+import { SpinnerCircular } from 'spinners-react';
+
+import useMarvelService from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton'
 import './charInfo.scss';
@@ -9,10 +10,8 @@ import './charInfo.scss';
 const  CharInfo = (props) => {
 
     const [char, setChar] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
     
-    const marvelService = new MarvelService();
+    const {loading, error, getCharacter, clearError } = useMarvelService();
     
     useEffect(() => {
         updateChar()
@@ -23,23 +22,12 @@ const  CharInfo = (props) => {
         if (!charId) {
             return;
         }
-        onCharLoading();
-        marvelService.getCharacter(charId)
+        clearError();
+        getCharacter(charId)
             .then(onCharLoaded)
-            .catch(onError)
     }
 
-    const onCharLoaded = (char) => {
-        setChar(char);
-        setLoading(false);
-    }
-
-    const onCharLoading = () => setLoading(true);
-
-    const onError = () => {
-        setError(true);
-        setLoading(false);
-    }
+    const onCharLoaded = (char) => setChar(char);
 
     const skeleton = char || loading || error ? null : <Skeleton/>;
     const errorMessage = error ? <ErrorMessage/> : null;
@@ -59,9 +47,6 @@ const  CharInfo = (props) => {
 
 const View = ({char}) => {
     const {name, description, thumbnail, homepage, wiki, comics} = char;
-    if (comics.length > 10) {
-        comics.length = 10
-    } 
     let imgStyle = {'objectFit' : 'cover'};
     if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
         imgStyle = {'objectFit' : 'contain'};

@@ -46,6 +46,8 @@
         &-list {
             position: relative;
             margin-top: 10px;
+            overflow: auto;
+            max-height: 385px;
         }
         &-item {
             width: 100%;
