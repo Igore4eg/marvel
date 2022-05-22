@@ -13,7 +13,6 @@ const  RandomChar = () => {
 
     useEffect(() => {
         updateChar();
-        console.log(char)
         const timerId = setInterval(updateChar, 30000);
 
         return () => {
@@ -26,7 +25,6 @@ const  RandomChar = () => {
     const updateChar = () => {
         clearError();
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
-        console.log(char)
         getCharacter(id).then(onCharLoaded);
     }    
 
