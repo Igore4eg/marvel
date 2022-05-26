@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { SpinnerCircular } from 'spinners-react';
 import { Link } from 'react-router-dom';
+
+import Spinner from "../Spinner";
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
 import './comicsList.scss';
@@ -18,6 +19,7 @@ const ComicsList = () => {
 
     useEffect(() => {
         onRequest(offset, true);
+        // eslint-disable-next-line
     }, [])
 
     const onRequest = (offset, initial) => {
@@ -77,14 +79,6 @@ const ComicsList = () => {
                 onClick={() => onRequest(offset)}>
                     <div className="inner">load more</div>
             </button>
-        </div>
-    )
-}
-
-const Spinner = () => {
-    return (
-        <div style={{margin: '0 auto', background: 'none', display: 'flex', justifyContent: 'center'}}>
-            <SpinnerCircular size={60} thickness={155} speed={121} color="rgba(159, 0, 19, 1)" secondaryColor="rgba(172, 57, 57, 0.48)" />
         </div>
     )
 }

@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import PropTypes from 'prop-types';
 
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
-import { SpinnerCircular } from 'spinners-react';
+import Spinner from "../Spinner";
+
 import './charList.scss';
 
 const CharList = (props) => {
@@ -12,6 +14,7 @@ const CharList = (props) => {
     const [newItemLoading, setNewItemLoading] = useState(false);
     const [offset, setOffset] = useState(210);
     const [charEnded, setCharEnded] = useState(false);
+
 
     const {loading, error, getAllCharacters} = useMarvelService();
 
@@ -54,29 +57,33 @@ const CharList = (props) => {
             }
             
             return (
-                <li 
-                    className="char__item" 
-                    tabIndex={0}
-                    key={item.id} 
-                    ref={el => itemRefs.current[i] = el}
-                    onClick={() => {
-                        props.onCharSelected(item.id);
-                        focusOnItem(i);
-                    }}
-                    onKeyPress={(e) => {
-                        if (e.key === ' ' || e.key === "Enter") {
+                <CSSTransition key={item.id} timeout={800} classNames="char__item">
+                    <li 
+                        className="char__item" 
+                        tabIndex={0}
+                        key={item.id}
+                        ref={el => itemRefs.current[i] = el}
+                        onClick={() => {
                             props.onCharSelected(item.id);
                             focusOnItem(i);
-                        }
-                    }}>
-                        <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
-                        <div className="char__name">{item.name}</div>
-                </li>
+                        }}
+                        onKeyPress={(e) => {
+                            if (e.key === ' ' || e.key === "Enter") {
+                                props.onCharSelected(item.id);
+                                focusOnItem(i);
+                            }
+                        }}>
+                            <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
+                            <div className="char__name">{item.name}</div>
+                    </li>   
+                </CSSTransition>
             )
         });
         return (
             <ul className="char__grid">
-                {items}
+                <TransitionGroup component={null}>
+                    {items}
+                </TransitionGroup>
             </ul>
         )
     }
@@ -98,14 +105,6 @@ const CharList = (props) => {
                 onClick={() => onRequest(offset)}>
                     <div className="inner">load more</div>
             </button>
-        </div>
-    )
-}
-
-const Spinner = () => {
-    return (
-        <div style={{margin: '0 auto', background: 'none', display: 'flex', justifyContent: 'center'}}>
-            <SpinnerCircular size={60} thickness={155} speed={121} color="rgba(159, 0, 19, 1)" secondaryColor="rgba(172, 57, 57, 0.48)" />
         </div>
     )
 }

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+
 import useMarvelService from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
-import { SpinnerCircular } from 'spinners-react';
+import Spinner from "../Spinner";
 
 import './singleComicPage.scss';
 
@@ -11,7 +12,7 @@ const SingleComicPage = () => {
     const {comicId} = useParams();
     const [comic, setComic] = useState(null);
     const {loading, error, getComics, clearError} = useMarvelService();
-
+// eslint-disable-next-line
     useEffect(() => updateComics(), [comicId]);
 
     const updateComics = () => {
@@ -48,14 +49,6 @@ const View = ({comic}) => {
                 <div className="single-comic__price">{price}</div>
             </div>
             <Link to="/comics" className="single-comic__back">Back to all</Link>
-        </div>
-    )
-}
-
-const Spinner = () => {
-    return (
-        <div style={{margin: 'auto', background: 'none', display: 'flex', justifyContent: 'center'}}>
-            <SpinnerCircular size={60} thickness={155} speed={121} color="rgba(159, 0, 19, 1)" secondaryColor="rgba(172, 57, 57, 0.48)" />
         </div>
     )
 }

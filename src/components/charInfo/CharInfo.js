@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
-import { SpinnerCircular } from 'spinners-react';
 
+import Spinner from "../Spinner";
 import useMarvelService from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
-import Skeleton from '../skeleton/Skeleton'
+import Skeleton from '../skeleton/Skeleton';
 import './charInfo.scss';
 
 const  CharInfo = (props) => {
@@ -15,6 +15,7 @@ const  CharInfo = (props) => {
     
     useEffect(() => {
         updateChar()
+        // eslint-disable-next-line
     }, [props.charId])
 
     const updateChar = () => {
@@ -42,7 +43,6 @@ const  CharInfo = (props) => {
             {content}
         </div>
     )
-
 }
 
 const View = ({char}) => {
@@ -84,13 +84,6 @@ const View = ({char}) => {
                     }                    
                 </ul>
         </>
-    )
-}
-const Spinner = () => {
-    return (
-        <div style={{margin: 'auto', background: 'none', display: 'flex', justifyContent: 'center'}}>
-            <SpinnerCircular size={60} thickness={155} speed={121} color="rgba(159, 0, 19, 1)" secondaryColor="rgba(172, 57, 57, 0.48)" />
-        </div>
     )
 }
 
